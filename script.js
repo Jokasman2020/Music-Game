@@ -1,3 +1,59 @@
-document.getElementById("helloButton").addEventListener("click", function() {
-    alert("HELLO WORLD");
-});
+let currentSong = "";
+let currentLyrics = [];
+let attempts = 5;
+
+const songs = [
+    { name: "Shape of You", lyrics: ["The club isn't the best place to find a lover", "So the bar is where I go"] },
+    { name: "Blinding Lights", lyrics: ["I've been tryna call", "I've been on my own for long enough"] },
+    // Adicione mais músicas aqui
+];
+
+function startGame() {
+    const randomSong = songs[Math.floor(Math.random() * songs.length)];
+    currentSong = randomSong.name;
+    currentLyrics = randomSong.lyrics;
+    document.getElementById("lyrics").textContent = `Letra Parcial: ${currentLyrics[0]}`;
+    document.getElementById("attemptsLeft").textContent = `Tentativas restantes: ${attempts}`;
+    document.getElementById("feedback").textContent = "";
+}
+
+function submitGuess() {
+    const guess = document.getElementById("guessInput").value.trim();
+    if (guess.toLowerCase() === currentSong.toLowerCase()) {
+        document.getElementById("feedback").textContent = "Você acertou!";
+        document.getElementById("feedback").style.color = "green";
+    } else {
+        attempts--;
+        document.getElementById("feedback").textContent = `Errado! Tente novamente.`;
+        document.getElementById("feedback").style.color = "red";
+        document.getElementById("attemptsLeft").textContent = `Tentativas restantes: ${attempts}`;
+        if (attempts === 0) {
+            document.getElementById("feedback").textContent = "Você perdeu! A resposta era " + currentSong;
+            document.getElementById("feedback").style.color = "red";
+        } else {
+            showNextLyric();
+        }
+    }
+}
+
+function showNextLyric() {
+    const lyricIndex = 1; // A cada erro, mostra-se a próxima parte da letra
+    if (currentLyrics[lyricIndex]) {
+        document.getElementById("lyrics").textContent = `Letra Parcial: ${currentLyrics[lyricIndex]}`;
+    }
+}
+
+function showSuggestions() {
+    const input = document.getElementById("guessInput").value.toLowerCase();
+    const suggestions = songs.filter(song => song.name.toLowerCase().includes(input)).map(song => song.name);
+    const suggestionList = document.getElementById("suggestions");
+    suggestionList.innerHTML = "";
+    suggestions.forEach(suggestion => {
+        const li = document.createElement("li");
+        li.textContent = suggestion;
+        suggestionList.appendChild(li);
+    });
+}
+
+// Iniciar o jogo ao carregar a página
+startGame();

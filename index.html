@@ -1,13 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botão Hello World</title>
+    <title>Jogo de Adivinhação de Músicas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Bem-vindo ao Meu Site!</h1>
-    <button id="helloButton">Clique Aqui</button>
+    <div class="game-container">
+        <h1>Adivinha a Música</h1>
+        <div id="lyrics"></div>
+        <div class="guess-section">
+            <input type="text" id="guessInput" placeholder="Digite seu palpite..." onkeyup="showSuggestions()">
+            <ul id="suggestions"></ul>
+            <button id="submitGuess" onclick="submitGuess()">Adivinhar</button>
+        </div>
+        <div id="feedback"></div>
+        <div id="attemptsLeft"></div>
+        <div id="adminMessage" class="admin-message"></div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
