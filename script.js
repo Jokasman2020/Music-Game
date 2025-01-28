@@ -1,5 +1,6 @@
 let currentSong = "";
 let currentLyrics = [];
+let lyricIndex = 0;
 let attempts = 5;
 
 const songs = [
@@ -12,7 +13,8 @@ function startGame() {
     const randomSong = songs[Math.floor(Math.random() * songs.length)];
     currentSong = randomSong.name;
     currentLyrics = randomSong.lyrics;
-    document.getElementById("lyrics").textContent = `Letra Parcial: ${currentLyrics[0]}`;
+    lyricIndex = 0; // Resetando o índice da letra
+    document.getElementById("lyrics").textContent = `Letra Parcial: ${currentLyrics[lyricIndex]}`;
     document.getElementById("attemptsLeft").textContent = `Tentativas restantes: ${attempts}`;
     document.getElementById("feedback").textContent = "";
 }
@@ -37,7 +39,7 @@ function submitGuess() {
 }
 
 function showNextLyric() {
-    const lyricIndex = 1; // A cada erro, mostra-se a próxima parte da letra
+    lyricIndex++; // Avançando para a próxima parte da letra
     if (currentLyrics[lyricIndex]) {
         document.getElementById("lyrics").textContent = `Letra Parcial: ${currentLyrics[lyricIndex]}`;
     }
@@ -51,6 +53,10 @@ function showSuggestions() {
     suggestions.forEach(suggestion => {
         const li = document.createElement("li");
         li.textContent = suggestion;
+        li.onclick = function() {
+            document.getElementById("guessInput").value = suggestion;
+            suggestionList.innerHTML = ""; // Limpar sugestões
+        };
         suggestionList.appendChild(li);
     });
 }
